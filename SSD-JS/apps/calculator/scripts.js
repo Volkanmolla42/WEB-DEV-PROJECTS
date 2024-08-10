@@ -3,23 +3,22 @@ const clearBtn = document.querySelector("#clear");
 const equalBtn = document.querySelector("#equal");
 const buttons = document.querySelectorAll(".button");
 
-let result = JSON.parse(localStorage.getItem("result")) || "";
 let isResultdisplay = false;
+let result = JSON.parse(localStorage.getItem("result")) || "";
 displayResult();
 
-buttons.forEach((e) => {
-  e.addEventListener("click", () => {
-    const value = e.textContent;
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const value = button.textContent;
+    const isOperator = ["+", "-", "*", "/"].includes(value);
 
-    if (isResultdisplay === false) {
-      result += value;
-    } else {
-      if (value === "+" || value === "-" || value === "*" || value === "/") {
-        result += value;
-      } else {
-        result = value;
-      }
+    if (isResultdisplay) {
+      // Eğer sonuç gösterilmişse ve operatör değilse, yeni bir işlem başlat
+      result = isOperator ? result + value : value;
       isResultdisplay = false;
+    } else {
+      // Eğer sonuç gösterilmemişse, değeri işleme ekle
+      result += value;
     }
 
     displayResult();
@@ -38,7 +37,7 @@ equalBtn.addEventListener("click", () => {
     displayResult();
   } catch (error) {
     displayDiv.textContent = "Error";
-    result = ""; // Reset transactionDiv on error
+    result = "";
   }
 });
 

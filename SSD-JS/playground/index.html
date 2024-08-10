@@ -7,6 +7,40 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <script src="script.js"></script>
+    <input type="text" placeholder="Cost of holder" class="costInput" />
+    <button class="calculate">Calculate</button>
+    <p class="result"></p>
+    <p>
+      <input type="text" class="yazBeni" />
+      <br />
+      <label for="yazBeni" class="yazBeniLabel"></label>
+    </p>
+    <script>
+      console.log();
+
+      const inputelement = document.querySelector(".costInput");
+      const calculateBtn = document.querySelector(".calculate");
+      const resultElement = document.querySelector(".result");
+      function CalculateTotal() {
+        let cost = Number(inputelement.value);
+
+        cost += cost < 40 && 10; //&& ifadesi eğer sol taraf doğru ise sağ tarafı döndürür.
+        cost = parseFloat(cost.toFixed(2));
+
+        resultElement.textContent = `Cost: ${cost}`;
+      }
+      calculateBtn.addEventListener("click", CalculateTotal);
+      inputelement.addEventListener("keydown", (event) => {
+        event.key == "Enter" && CalculateTotal();
+      });
+
+      const yazbeniElement = document.querySelector(".yazBeni");
+      const yazbeniLabel = document.querySelector(".yazBeniLabel");
+      yazbeniElement.addEventListener("input", () => {
+        // burada keyup yerine input kullanmak daha mantıklı
+        let yazı = yazbeniElement.value;
+        yazbeniLabel.textContent = yazı;
+      });
+    </script>
   </body>
 </html>
