@@ -2,9 +2,21 @@
   font-size: 20px;
 }
 
-.calculate {
-  background: #555cbb;
+body {
+  background-color: #464646;
   color: white;
-  padding: px;
+}
+
+.addBtn {
   border: none;
+  background-color: rgb(255, 215, 20);
+  padding: 10px 30px;
+  border-radius: 20px;
+  margin: 20px;
+  cursor: pointer;
+}
+
+.clicked {
+  background: #000;
+  color: white;
 }
