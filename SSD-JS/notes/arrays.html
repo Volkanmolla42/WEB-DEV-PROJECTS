@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PLAYGROUND</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <script>
+      const functtt = [
+        1,
+        "hello",
+        { name: "socks" },
+        [1, 2, 3],
+        () => {
+          console.log("hi");
+        },
+      ];
+
+      functtt[4]();
+      const log = functtt[4];
+      log();
+      const functt2 = [
+        () => {
+          console.log("naber");
+        },
+        () => {
+          console.log("selam");
+        },
+        () => {
+          console.log("merhaba");
+        },
+      ];
+
+      functt2[Math.floor(Math.random() * functt2.length)]();
+    </script>
+  </body>
+</html>

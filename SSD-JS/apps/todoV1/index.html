@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todo</title>
+    <style>
+      * {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        min-width: 500px;
+        max-width: 30%;
+      }
+
+      input {
+        height: 50px;
+        padding: 4px;
+      }
+
+      .addBtn {
+        height: 50px;
+        width: 100px;
+        background: greenyellow;
+        cursor: pointer;
+      }
+
+      .deleteBtn {
+        height: 50px;
+        width: 100px;
+        background: rgb(207, 49, 1);
+        color: white;
+        cursor: pointer;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 20px;
+      }
+
+      .col1 {
+        width: 400px;
+      }
+      .col2 {
+        width: 350px;
+      }
+      .col3 {
+        width: 200px;
+      }
+      .todoList {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <p>ToDo list practice 1</p>
+      <div class="row">
+        <div class="col1">
+          <input type="text" placeholder="Todo name" class="input" />
+        </div>
+        <div class="col2">
+          <input type="date" name="" id="" class="dateInput" />
+        </div>
+        <div class="col3">
+          <button class="addBtn">Add</button>
+        </div>
+      </div>
+      <div class="todoList"></div>
+    </div>
+    <script>
+      const addBtn = document.querySelector('.addBtn')
+      const input = document.querySelector('.input')
+      const dateInput = document.querySelector('.dateInput')
+      const todoListContainer = document.querySelector('.todoList')
+      const todoList = JSON.parse(localStorage.getItem('Todos')) || []
+
+      displayTodos()
+
+      addBtn.addEventListener('click', () => {
+        let todo = {
+          name: input.value,
+          date: dateInput.value
+        }
+        todoList.push(todo)
+        input.value = ''
+        dateInput.value = ''
+        displayTodos()
+      })
+
+      function displayTodos() {
+        let todosHTML = ''
+        todoList.forEach((todo, index) => {
+          todosHTML += `
+            <div class="row">
+              <div class="col1">
+                ${todo.name}
+              </div>
+              <div class="col2">
+                ${todo.date}
+              </div>
+              <div class="col3">
+                <button class="deleteBtn" onClick='deleteTodo(${index})'>Delete</button>
+              </div>
+            </div>
+          `
+        })
+        todoListContainer.innerHTML = todosHTML
+        localStorage.setItem('Todos', JSON.stringify(todoList))
+      }
+
+      function deleteTodo(index) {
+        todoList.splice(index, 1)
+        displayTodos()
+      }
+    </script>
+  </body>
+</html>
