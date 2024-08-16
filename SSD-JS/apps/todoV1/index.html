@@ -4,80 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>todo</title>
-    <style>
-      * {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
-        display: flex;
-        height: 100vh;
-        justify-content: center;
-        margin-top: 50px;
-      }
-
-      .container {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        min-width: 500px;
-        max-width: 30%;
-      }
-
-      input {
-        height: 50px;
-        padding: 4px;
-      }
-
-      .addBtn {
-        height: 50px;
-        width: 100px;
-        background: greenyellow;
-        cursor: pointer;
-      }
-
-      .deleteBtn {
-        height: 50px;
-        width: 100px;
-        background: rgb(207, 49, 1);
-        color: white;
-        cursor: pointer;
-      }
-
-      .row {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        width: 100%;
-      }
-
-      .col1,
-      .col2 {
-        display: flex;
-        align-items: center;
-      }
-
-      .col1 {
-        width: 400px;
-      }
-
-      .col2 {
-        width: 350px;
-      }
-
-      .col3 {
-        width: 200px;
-      }
-
-      .todoList {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
@@ -96,52 +23,6 @@
       </div>
       <div class="todoList"></div>
     </div>
-    <script>
-      const addBtn = document.querySelector('.addBtn')
-      const todoList = JSON.parse(localStorage.getItem('Todos')) || []
-      const input = document.querySelector('.input')
-      const dateInput = document.querySelector('.dateInput')
-      dateInput.value = new Date().toISOString().split('T')[0]
-      displayTodos()
-
-      addBtn.addEventListener('click', () => {
-        let todo = {
-          name: input.value,
-          date: dateInput.value
-        }
-        todoList.push(todo)
-        input.value = ''
-        displayTodos()
-      })
-
-      function displayTodos() {
-        const todoListContainer = document.querySelector('.todoList')
-
-        let todosHTML = ''
-        todoList.forEach((todo, index) => {
-          const { name, date } = todo
-          todosHTML += `
-            <div class="row">
-              <div class="col1">
-                ${name}
-              </div>
-              <div class="col2">
-                ${date}
-              </div>
-              <div class="col3">
-                <button class="deleteBtn" onClick='deleteTodo(${index})'>Delete</button>
-              </div>
-            </div>
-          `
-        })
-        todoListContainer.innerHTML = todosHTML
-        localStorage.setItem('Todos', JSON.stringify(todoList))
-      }
-
-      function deleteTodo(index) {
-        todoList.splice(index, 1)
-        displayTodos()
-      }
-    </script>
+    <script src="scripts.js"></script>
   </body>
 </html>

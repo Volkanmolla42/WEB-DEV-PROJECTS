@@ -10,30 +10,52 @@
     <script>
       const functtt = [
         1,
-        "hello",
-        { name: "socks" },
+        'hello',
+        { name: 'socks' },
         [1, 2, 3],
         () => {
-          console.log("hi");
-        },
-      ];
+          console.log('hi')
+        }
+      ]
 
-      functtt[4]();
-      const log = functtt[4];
-      log();
+      functtt[4]()
+      const log = functtt[4]
+      log()
       const functt2 = [
         () => {
-          console.log("naber");
+          console.log('naber')
         },
         () => {
-          console.log("selam");
+          console.log('selam')
         },
         () => {
-          console.log("merhaba");
-        },
-      ];
+          console.log('merhaba')
+        }
+      ]
 
-      functt2[Math.floor(Math.random() * functt2.length)]();
+      functt2[Math.floor(Math.random() * functt2.length)]()
+
+      /* function findIndex(array, word) {
+        for (let i = 0; i < array.length; i++) {
+          const string = array[i]
+          if (string === word) {
+            return i
+          }
+        }
+        return -1
+      }
+
+      function unique(array) {
+        let result = []
+
+        for (let index = 0; index < array.length; index++) {
+          const element = array[index]
+          findIndex(result, element) === -1 && result.push(element)
+        }
+        return result
+      }
+      console.log(unique(['red', 'green', 'blue', 'green']))
+      console.log(unique(['red', 'green', 'red', 'green']))*/
     </script>
   </body>
 </html>
