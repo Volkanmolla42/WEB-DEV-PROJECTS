@@ -8,6 +8,7 @@
   </head>
   <body>
     <script>
+      /* 
       const functtt = [
         1,
         'hello',
@@ -35,7 +36,105 @@
 
       functt2[Math.floor(Math.random() * functt2.length)]()
 
-      /* function findIndex(array, word) {
+      const array1 = [1, 2, 3]
+      const array2 = array1
+      array2.push(2)
+      array1.push(5)
+      console.log(array1)
+      console.log(array2)
+      console.log('====================================')
+      const array3 = [1, 2, 3]
+      const array4 = array3.slice()
+      array4.push(2)
+      array3.push(5)
+      console.log(array3)
+      console.log(array4)
+      console.log('====================================')
+      const [bir, iki] = array1
+      console.log(bir)
+      console.log(iki)
+      const [firstValue, SecondValue] = [799, 2898]
+      console.log(firstValue)
+      console.log(SecondValue)
+      console.log('====================================')
+      for (let i = 0; i <= 10; i++) {
+        if (i % 3 === 0) continue
+        console.log(i)
+      }
+      console.log('====================================')
+
+      let i = 1
+      while (i <= 10) {
+        if (i % 3 === 0) {
+          i++
+          continue
+        }
+        console.log(i)
+        i++
+      }
+      console.log('====================================')
+      console.log('EXERCİES')
+      console.log('====================================')
+      const strings = ['hello', 'search', 'world', 'search', 'good']
+      let result
+      for (let i = 0; i < strings.length; i++) {
+        const string = strings[i]
+        if (string === 'search') {
+          result = i
+          break
+        } else {
+          result = -1
+        }
+      }
+      console.log(result)
+      console.log('====================================')
+
+      function findIndex(array, word) {
+        for (let i = 0; i < array.length; i++) {
+          const string = array[i]
+          if (string === word) {
+            return i
+          }
+        }
+        return -1
+      }
+      console.log(findIndex(['green', 'red', 'blue', 'red'], 'red'))
+      console.log(findIndex(['green', 'red', 'blue', 'red'], 'yellow'))
+
+      console.log('====================================')
+
+      function removeEgg(foods) {
+        let foodsCopy = foods.slice()
+        foodsCopy.reverse()
+        let result = []
+        let count = 0
+        for (let i = 0; i < foodsCopy.length; i++) {
+          const food = foodsCopy[i]
+
+          if (food === 'egg' && count < 2) {
+            count++
+            continue
+          }
+          result.push(food)
+        }
+        return result.reverse()
+      }
+      const foods = ['egg', 'apple', 'egg', 'egg', 'ham']
+      console.log(removeEgg(foods))
+      console.log(foods) //  ['egg', 'apple', 'egg', 'egg', 'ham']
+
+      for (let i = 1; i <= 20; i++) {
+        if (i % 3 === 0 && i % 5 === 0) {
+          console.log('FizzBuzz')
+        } else if (i % 5 === 0) {
+          console.log('Buzz')
+        } else if (i % 3 === 0) {
+          console.log('Fizz')
+        } else console.log(i)
+      }
+
+      console.log('====================================')
+      function findIndex(array, word) {
         for (let i = 0; i < array.length; i++) {
           const string = array[i]
           if (string === word) {

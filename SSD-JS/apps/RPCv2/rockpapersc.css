@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+
+}
+
+.buttons>button {
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: white;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.scores {
+  font-size: 20px;
+}

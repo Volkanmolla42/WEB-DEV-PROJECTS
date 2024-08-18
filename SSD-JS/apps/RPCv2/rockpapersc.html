@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="rockpapersc.css" />
+    <link rel="stylesheet" href="/boostrap/bootstrap.min.css" />
+  </head>
+  <body>
+    <div
+      class="game h-50 w-75 d-flex flex-column gap-4 justify-content-center align-items-center m-auto"
+    >
+      <div class="gameBtns gap-5 w-75 d-flex fs-1">
+        <button class="rock bg-info p-3 w-50">TAŞ</button>
+        <button class="paper bg-secondary p-3 w-50">KAĞIT</button>
+        <button class="scissors bg-warning p-3 w-50">MAKAS</button>
+      </div>
+      <div class="winners fs-4 justify-content-between d-flex w-50 mt-3">
+        <span class="playerC w-50 text-center"></span>
+        <span class="computerC w-50 text-center"></span>
+      </div>
+      <span class="result fs-5">Başlamak için seçimini yap!</span>
+      <div class="scores"></div>
+      <div class="buttons">
+        <button class="autoPlayBtn">Auto Play</button>
+        <button class="resetBtn">Reset score</button>
+      </div>
+    </div>
+  </body>
+  <script src="rockpapersc.js"></script>
+  <script src="/boostrap/bootstrap.bundle.min.js"></script>
+</html>

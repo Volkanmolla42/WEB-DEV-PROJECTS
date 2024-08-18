@@ -7,126 +7,103 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <button class="startBtn">Start</button><br />
+    <button class="addToCartBtn">Add to cart</button><br />
+    <label class="cartLabel"></label>
+    <br />
+    <button class="increase" onclick="count++">Increase</button>
+    <button class="decrease" onclick="count--">Decrease</button>
     <script>
-      const array1 = [1, 2, 3]
-      const array2 = array1
-      array2.push(2)
-      array1.push(5)
-      console.log(array1)
-      console.log(array2)
-      console.log('====================================')
-      const array3 = [1, 2, 3]
-      const array4 = array3.slice()
-      array4.push(2)
-      array3.push(5)
-      console.log(array3)
-      console.log(array4)
-      console.log('====================================')
-      const [bir, iki] = array1
-      console.log(bir)
-      console.log(iki)
-      const [firstValue, SecondValue] = [799, 2898]
-      console.log(firstValue)
-      console.log(SecondValue)
-      console.log('====================================')
-      for (let i = 0; i <= 10; i++) {
-        if (i % 3 === 0) continue
-        console.log(i)
+      function greeting() {
+        console.log('Hello, World!')
       }
-      console.log('====================================')
-
-      let i = 1
-      while (i <= 10) {
-        if (i % 3 === 0) {
-          i++
-          continue
+      greeting()
+      const func1 = function greeting() {
+        console.log('heello2')
+      }
+      console.log(typeof func1)
+      const object1 = {
+        num: 2,
+        fun: () => {
+          console.log('hello3')
         }
-        console.log(i)
-        i++
       }
+      object1.fun()
+
+      function display(param) {
+        console.log(param)
+      }
+      display(2)
+      function run(param) {
+        param()
+      }
+      run(function () {
+        console.log('hello4')
+      })
+      /*
+
+      setTimeout(() => {
+        console.log('hello5')
+      }, 2000)
+      console.log('next line:')
+      setInterval(() => {
+        console.log('interval')
+      }, 2000)*/
+
+      console.log('next line 2')
+      let todos = ['make dinner', 'make breakfast', 'make lunch', 'make snack']
+      todos.forEach((element, index) => {
+        if (element === 'make breakfast') {
+          return
+        }
+        console.log(element)
+        console.log(index)
+      })
       console.log('====================================')
-      console.log('EXERCİES')
+      console.log('EXERCIES')
       console.log('====================================')
-      const strings = ['hello', 'search', 'world', 'search', 'good']
-      let result
-      for (let i = 0; i < strings.length; i++) {
-        const string = strings[i]
-        if (string === 'search') {
-          result = i
-          break
+      const add = function () {
+        console.log(2 + 3)
+      }
+      add()
+      add()
+      function runTwice(fun) {
+        fun()
+        fun()
+      }
+      runTwice(function () {
+        console.log('12b')
+      })
+
+      const btn = document.querySelector('.startBtn')
+      btn.addEventListener('click', () => {
+        btn.textContent = 'Loading...'
+        setTimeout(() => {
+          btn.textContent = 'Finished!'
+        }, 1000)
+      })
+
+      const addtoCartEl = document.querySelector('.addToCartBtn')
+      const cartLabel = document.querySelector('.cartLabel')
+      let timeOutID
+      addtoCartEl.addEventListener('click', () => {
+        clearTimeout(timeOutID)
+        cartLabel.textContent = 'Added'
+        timeOutID = setTimeout(() => {
+          cartLabel.textContent = ''
+        }, 2000)
+      })
+      let count = 2
+      setInterval(() => {
+        if (count > 0) {
+          document.title === 'App'
+            ? (document.title = `(${count}) New Messages`)
+            : (document.title = 'App')
         } else {
-          result = -1
+          count = 0
+          document.title = 'App'
         }
-      }
-      console.log(result)
-      console.log('====================================')
-
-      function findIndex(array, word) {
-        for (let i = 0; i < array.length; i++) {
-          const string = array[i]
-          if (string === word) {
-            return i
-          }
-        }
-        return -1
-      }
-      console.log(findIndex(['green', 'red', 'blue', 'red'], 'red'))
-      console.log(findIndex(['green', 'red', 'blue', 'red'], 'yellow'))
-
-      console.log('====================================')
-
-      function removeEgg(foods) {
-        let foodsCopy = foods.slice()
-        foodsCopy.reverse()
-        let result = []
-        let count = 0
-        for (let i = 0; i < foodsCopy.length; i++) {
-          const food = foodsCopy[i]
-
-          if (food === 'egg' && count < 2) {
-            count++
-            continue
-          }
-          result.push(food)
-        }
-        return result.reverse()
-      }
-      const foods = ['egg', 'apple', 'egg', 'egg', 'ham']
-      console.log(removeEgg(foods))
-      console.log(foods) //  ['egg', 'apple', 'egg', 'egg', 'ham']
-
-      for (let i = 1; i <= 20; i++) {
-        if (i % 3 === 0 && i % 5 === 0) {
-          console.log('FizzBuzz')
-        } else if (i % 5 === 0) {
-          console.log('Buzz')
-        } else if (i % 3 === 0) {
-          console.log('Fizz')
-        } else console.log(i)
-      }
-
-      console.log('====================================')
-      function findIndex(array, word) {
-        for (let i = 0; i < array.length; i++) {
-          const string = array[i]
-          if (string === word) {
-            return i
-          }
-        }
-        return -1
-      }
-
-      function unique(array) {
-        let result = []
-
-        for (let index = 0; index < array.length; index++) {
-          const element = array[index]
-          findIndex(result, element) === -1 && result.push(element)
-        }
-        return result
-      }
-      console.log(unique(['red', 'green', 'blue', 'green']))
-      console.log(unique(['red', 'green', 'red', 'green']))
+      }, 1000)
     </script>
   </body>
 </html>
