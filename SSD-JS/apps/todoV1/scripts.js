@@ -1,7 +1,7 @@
 const addBtn = document.querySelector(".addBtn");
-const todoList = JSON.parse(localStorage.getItem("Todos")) || [];
 const input = document.querySelector(".input");
 const dateInput = document.querySelector(".dateInput");
+const todoList = JSON.parse(localStorage.getItem("Todos")) || [];
 dateInput.value = new Date().toISOString().split("T")[0];
 displayTodos();
 

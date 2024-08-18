@@ -16,8 +16,6 @@ paperBtn.addEventListener("click", () => playGame("KAĞIT"));
 resetBtn.addEventListener("click", resetScore);
 autoBtn.addEventListener("click", autoPlay);
 
-// Initialize score from localStorage or default
-
 let score;
 let autoPlaying = false;
 let autoPlayInterval;
