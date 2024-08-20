@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart, addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 let productsHtml = "";
 products.forEach((product) => {
@@ -57,49 +57,43 @@ products.forEach((product) => {
         </div>
   `;
 });
+
 document.querySelector(".products-grid").innerHTML = productsHtml;
+
+function updateCartQuantity() {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += Number(cartItem.quantity);
+  });
+
+  document.querySelector(".js-cart-quantity").textContent = cartQuantity;
+}
+
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  let addedTimeout;
+
   button.addEventListener("click", () => {
     const { productId } = button.dataset;
     const productSelectElement = document.querySelector(
       `.js-quantity-selector-${productId}`
     );
     const quantity = Number(productSelectElement.value);
-    let matchingItem;
 
-    cart.forEach((product) => {
-      if (productId === product.productId) matchingItem = product;
-    });
-
-    if (matchingItem) {
-      matchingItem.quantity = Number(matchingItem.quantity) + quantity;
-    } else {
-      cart.push({
-        productId,
-        quantity,
-      });
-    }
-
-    let cartQuantity = 0;
-    cart.forEach((product) => {
-      cartQuantity += Number(product.quantity);
-    });
-
-    document.querySelector(".js-cart-quantity").textContent = cartQuantity;
+    addToCart(productId, quantity);
+    updateCartQuantity();
 
     const addedMessageEl = document.querySelector(
       `.js-added-message-${productId}`
     );
-
     showAddedMessage(addedMessageEl);
   });
-  let addedTimeout;
-  function showAddedMessage(addedMessage) {
+
+  function showAddedMessage(addedMessageEl) {
     clearTimeout(addedTimeout);
-    addedMessage.classList.add("opacity1");
+    addedMessageEl.classList.add("opacity1");
 
     addedTimeout = setTimeout(() => {
-      addedMessage.classList.remove("opacity1");
+      addedMessageEl.classList.remove("opacity1");
     }, 2000);
   }
 });
