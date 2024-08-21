@@ -1,5 +1,6 @@
-import { cart, removeFromCart } from "../data/cart.js";
+import { cart, removeFromCart, updatedCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
+
 import { formatCurrency } from "./utils/money.js";
 
 function renderCart() {
@@ -90,11 +91,14 @@ function renderCart() {
     .forEach((cartDeleteButton) => {
       cartDeleteButton.addEventListener("click", () => {
         const productId = cartDeleteButton.dataset.productId;
-
         removeFromCart(productId);
         renderCart();
       });
     });
+  document.querySelector(
+    ".js-checkout-header"
+  ).innerHTML = `  Checkout (<a class="return-to-home-link" href="amazon.html">${updatedCartQuantity()} items</a
+          >)`;
 }
 
 // Initial render
