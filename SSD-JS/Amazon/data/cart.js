@@ -28,10 +28,6 @@ export function removeFromCart(productId) {
   saveCart()
 }
 
-export function saveCart() {
-  localStorage.setItem('cart', JSON.stringify(cart))
-}
-
 export function calculateCartQuantity() {
   let newQuantity = cart.reduce(
     (total, cartItem) => total + Number(cartItem.quantity),
@@ -48,4 +44,8 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
   })
   matchingItem.deliveryOptionId = deliveryOptionId
   saveCart()
+}
+
+export function saveCart() {
+  localStorage.setItem('cart', JSON.stringify(cart))
 }
