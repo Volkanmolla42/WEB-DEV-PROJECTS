@@ -31,7 +31,7 @@ export function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-export function updatedCartQuantity() {
+export function calculateCartQuantity() {
   let newQuantity = cart.reduce(
     (total, cartItem) => total + Number(cartItem.quantity),
     0
