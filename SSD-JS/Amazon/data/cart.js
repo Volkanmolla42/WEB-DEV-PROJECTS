@@ -1,40 +1,41 @@
-export let cart = JSON.parse(localStorage.getItem("cart")) || [];
+export let cart = JSON.parse(localStorage.getItem('cart')) || []
 
 export function addToCart(productId, quantity) {
-  let matchingItem;
+  let matchingItem
 
   cart.forEach((cartItem) => {
-    if (productId === cartItem.productId) matchingItem = cartItem;
-  });
+    if (productId === cartItem.productId) matchingItem = cartItem
+  })
 
   if (matchingItem) {
-    matchingItem.quantity = Number(matchingItem.quantity) + quantity;
+    matchingItem.quantity = Number(matchingItem.quantity) + quantity
   } else {
     cart.push({
       productId,
       quantity,
-    });
+      deliveryOptionId: '1',
+    })
   }
-  saveCart();
+  saveCart()
 }
 
 export function removeFromCart(productId) {
-  const newCart = [];
+  const newCart = []
   cart.forEach((cartItem) => {
-    if (cartItem.productId !== productId) newCart.push(cartItem);
-  });
-  cart = newCart;
-  saveCart();
+    if (cartItem.productId !== productId) newCart.push(cartItem)
+  })
+  cart = newCart
+  saveCart()
 }
 
 export function saveCart() {
-  localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem('cart', JSON.stringify(cart))
 }
 
 export function calculateCartQuantity() {
   let newQuantity = cart.reduce(
     (total, cartItem) => total + Number(cartItem.quantity),
-    0
-  );
-  return newQuantity;
+    0,
+  )
+  return newQuantity
 }
