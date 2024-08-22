@@ -54,6 +54,8 @@
 }
 
 .payment-summary {
+  position: sticky;
+  top: 60px;
   padding-bottom: 5px;
 }
 
@@ -65,6 +67,7 @@
       the HTML. grid-row overrides this default ordering). */
     grid-row: 1;
     margin-bottom: 12px;
+    position: static;
   }
 }
 

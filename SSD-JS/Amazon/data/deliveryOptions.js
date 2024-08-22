@@ -17,3 +17,6 @@ const deliveryOptions = [
 ]
 
 export default deliveryOptions
+export function getDeliveryOption(deliveryOptionId) {
+  return deliveryOptions.find((option) => option.id === deliveryOptionId)
+}

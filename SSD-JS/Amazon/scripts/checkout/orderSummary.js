@@ -5,21 +5,20 @@ import {
   saveCart,
   updateDeliveryOption,
 } from '../../data/cart.js'
-import products from '../../data/products.js'
+import products, { getProduct } from '../../data/products.js'
 import formatCurrency from '../utils/money.js'
-import deliveryOptions from '../../data/deliveryOptions.js'
+import deliveryOptions, {
+  getDeliveryOption,
+} from '../../data/deliveryOptions.js'
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
+import { renderPaymentSummary } from './paymentSummary.js'
 
 export function renderOrderSummary() {
   let checkoutHTML = ''
 
   cart.forEach((cartItem) => {
-    const matchingProduct = products.find(
-      (productItem) => cartItem.productId === productItem.id,
-    )
-    const deliveryOption = deliveryOptions.find(
-      (option) => option.id === cartItem.deliveryOptionId,
-    )
+    const matchingProduct = getProduct(cartItem.productId)
+    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId)
 
     if (matchingProduct && deliveryOption) {
       const deliveryDate = dayjs()
@@ -107,6 +106,7 @@ function addEventListeners() {
         const productId = cartDeleteButton.dataset.productId
         removeFromCart(productId)
         renderOrderSummary()
+        renderPaymentSummary()
       })
     })
 
@@ -123,6 +123,7 @@ function addEventListeners() {
       const { deliveryOptionId, productId } = element.dataset
       updateDeliveryOption(productId, deliveryOptionId)
       renderOrderSummary()
+      renderPaymentSummary()
     })
   })
 }
@@ -148,6 +149,7 @@ function handleQuantityUpdate(e) {
           cartItem.quantity = quantity
           saveCart()
           renderOrderSummary()
+          renderPaymentSummary()
         }
       })
       quantityInput.classList.add('d-none')
