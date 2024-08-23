@@ -1,8 +1,8 @@
-import { addToCart, saveCart, calculateCartQuantity } from "../data/cart.js";
-import { products } from "../data/products.js";
-import { formatCurrency } from "./utils/money.js";
+import { addToCart, calculateCartQuantity } from '../data/cart.js'
+import { products } from '../data/products.js'
+import { formatCurrency } from './utils/money.js'
 
-let productsHtml = "";
+let productsHtml = ''
 products.forEach((product) => {
   productsHtml += `
   <div class="product-container">
@@ -28,7 +28,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-price">$${formatCurrency(
-            product.priceCents
+            product.priceCents,
           )}</div>
 
           <div class="product-quantity-container">
@@ -57,42 +57,42 @@ products.forEach((product) => {
             product.id
           }'>Add to Cart</button>
         </div>
-  `;
-});
+  `
+})
 
-document.querySelector(".products-grid").innerHTML = productsHtml;
+document.querySelector('.products-grid').innerHTML = productsHtml
 
-document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-  let addedTimeout;
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  let addedTimeout
 
-  button.addEventListener("click", () => {
-    const { productId } = button.dataset;
+  button.addEventListener('click', () => {
+    const { productId } = button.dataset
     const productSelectElement = document.querySelector(
-      `.js-quantity-selector-${productId}`
-    );
-    const quantity = Number(productSelectElement.value);
+      `.js-quantity-selector-${productId}`,
+    )
+    const quantity = Number(productSelectElement.value)
 
-    addToCart(productId, quantity);
-    displayQuantiy();
+    addToCart(productId, quantity)
+    displayQuantiy()
 
     const addedMessageEl = document.querySelector(
-      `.js-added-message-${productId}`
-    );
-    showAddedMessage(addedMessageEl);
-  });
+      `.js-added-message-${productId}`,
+    )
+    showAddedMessage(addedMessageEl)
+  })
 
   function showAddedMessage(addedMessageEl) {
-    clearTimeout(addedTimeout);
-    addedMessageEl.classList.add("opacity1");
+    clearTimeout(addedTimeout)
+    addedMessageEl.classList.add('opacity1')
 
     addedTimeout = setTimeout(() => {
-      addedMessageEl.classList.remove("opacity1");
-    }, 2000);
+      addedMessageEl.classList.remove('opacity1')
+    }, 2000)
   }
-});
+})
 function displayQuantiy() {
   document.querySelector(
-    ".js-cart-quantity"
-  ).textContent = calculateCartQuantity();
+    '.js-cart-quantity',
+  ).textContent = calculateCartQuantity()
 }
-displayQuantiy();
+displayQuantiy()
