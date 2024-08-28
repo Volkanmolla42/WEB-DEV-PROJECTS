@@ -4,10 +4,10 @@ class Cart {
 
     constructor(localStorageKey) {
         this.#localStorageKey = localStorageKey
-        this.#loadFromStorage()
+        this.loadFromStorage()
     }
 
-    #loadFromStorage() {
+    loadFromStorage() {
         this.cartItems =
             JSON.parse(localStorage.getItem(this.#localStorageKey)) || []
     }
@@ -62,13 +62,4 @@ class Cart {
     }
 }
 
-const cart = new Cart('cart-oop')
-
-const businessCart = new Cart('cart-business')
-
-cart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e', 1)
-businessCart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e', 1)
-
-console.log(cart)
-console.log(businessCart)
-console.log(businessCart instanceof Cart)
+export const cart = new Cart('cart')

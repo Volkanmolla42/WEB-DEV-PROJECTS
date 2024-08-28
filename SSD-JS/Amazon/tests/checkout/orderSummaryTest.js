@@ -1,6 +1,5 @@
 import { renderOrderSummary } from '../../scripts/checkout/orderSummary.js'
-import { loadFromStorage, cart } from '../../data/cart.js'
-import products from '../../data/products.js'
+import { cart } from '../../data/cart-class.js'
 
 describe('test suite: renderOrderSummary', () => {
     const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6'
@@ -29,7 +28,7 @@ describe('test suite: renderOrderSummary', () => {
             ])
         })
 
-        loadFromStorage()
+        cart.loadFromStorage()
         renderOrderSummary()
     })
     afterEach(() => {
@@ -72,8 +71,9 @@ describe('test suite: renderOrderSummary', () => {
         expect(
             document.querySelector(`.js-cart-item-container-${productId2}`),
         ).not.toEqual(null)
-        expect(cart.length).toEqual(1)
-        expect(cart[0].productId).toEqual(productId2)
+
+        expect(cart.cartItems.length).toEqual(1)
+        expect(cart.cartItems[0].productId).toEqual(productId2)
         expect(
             document.querySelector(`.js-product-name-${productId2}`).innerText,
         ).toEqual('Intermediate Size Basketball')

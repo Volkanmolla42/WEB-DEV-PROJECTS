@@ -1,10 +1,4 @@
-import {
-    cart,
-    removeFromCart,
-    calculateCartQuantity,
-    saveToStorage,
-    updateDeliveryOption,
-} from '../../data/cart.js'
+import { cart } from '../../data/cart-class.js'
 import { getProduct } from '../../data/products.js'
 import formatCurrency from '../utils/money.js'
 import deliveryOptions, {
@@ -12,11 +6,10 @@ import deliveryOptions, {
 } from '../../data/deliveryOptions.js'
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
 import { renderPaymentSummary } from './paymentSummary.js'
-
 export function renderOrderSummary() {
     let checkoutHTML = ''
 
-    cart.forEach((cartItem) => {
+    cart.cartItems.forEach((cartItem) => {
         const matchingProduct = getProduct(cartItem.productId)
         const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId)
 
@@ -37,7 +30,7 @@ export function renderOrderSummary() {
             }</div>
               <div class="product-price js-product-price-${
                   matchingProduct.id
-              }">$${formatCurrency(matchingProduct.priceCents)}</div>
+              }">$${matchingProduct.getPrice()}</div>
               <div class="product-quantity js-product-quantity-${
                   matchingProduct.id
               }">
@@ -71,7 +64,7 @@ export function renderOrderSummary() {
         checkoutHTML || '<p>Your cart is empty.</p>'
     document.querySelector(
         '.js-checkout-header',
-    ).innerHTML = `Checkout (<a class="return-to-home-link" href="amazon.html">${calculateCartQuantity()} items</a>)`
+    ).innerHTML = `Checkout (<a class="return-to-home-link" href="amazon.html">${cart.calculateCartQuantity()} items</a>)`
 
     addEventListeners()
 }
@@ -110,7 +103,7 @@ function addEventListeners() {
         .forEach((cartDeleteButton) => {
             cartDeleteButton.addEventListener('click', () => {
                 const productId = cartDeleteButton.dataset.productId
-                removeFromCart(productId)
+                cart.removeFromCart(productId)
                 renderOrderSummary()
                 renderPaymentSummary()
             })
@@ -129,7 +122,7 @@ function addEventListeners() {
     document.querySelectorAll('.js-delivery-option').forEach((element) => {
         element.addEventListener('click', () => {
             const { deliveryOptionId, productId } = element.dataset
-            updateDeliveryOption(productId, deliveryOptionId)
+            cart.updateDeliveryOption(productId, deliveryOptionId)
             renderOrderSummary()
             renderPaymentSummary()
         })
@@ -154,10 +147,10 @@ function handleQuantityUpdate(e) {
                 quantity = 1
             }
 
-            cart.forEach((cartItem) => {
+            cart.cartItems.forEach((cartItem) => {
                 if (cartItem.productId === productId) {
                     cartItem.quantity = quantity
-                    saveToStorage()
+                    cart.saveToStorage()
                     renderOrderSummary()
                     renderPaymentSummary()
                 }
@@ -167,5 +160,3 @@ function handleQuantityUpdate(e) {
         }
     }
 }
-
-//renderOrderSummary()

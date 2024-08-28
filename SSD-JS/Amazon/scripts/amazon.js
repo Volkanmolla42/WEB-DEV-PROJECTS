@@ -1,6 +1,5 @@
-import { addToCart, calculateCartQuantity } from '../data/cart.js'
+import { cart } from '../data/cart-class.js'
 import { products } from '../data/products.js'
-import { formatCurrency } from './utils/money.js'
 
 let productsHtml = ''
 products.forEach((product) => {
@@ -20,16 +19,14 @@ products.forEach((product) => {
           <div class="product-rating-container">
             <img
               class="product-rating-stars"
-              src="images/ratings/rating-${product.rating.stars * 10}.png"
+              src="${product.getStarsUrl()}"
             />
             <div class="product-rating-count link-primary">${
                 product.rating.count
             }</div>
           </div>
 
-          <div class="product-price">$${formatCurrency(
-              product.priceCents,
-          )}</div>
+          <div class="product-price">${product.getPrice()}</div>
 
           <div class="product-quantity-container">
             <select class="js-quantity-selector-${product.id}">
@@ -72,8 +69,8 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
         )
         const quantity = Number(productSelectElement.value)
 
-        addToCart(productId, quantity)
-        displayQuantiy()
+        cart.addToCart(productId, quantity)
+        displayQuantity()
 
         const addedMessageEl = document.querySelector(
             `.js-added-message-${productId}`,
@@ -90,9 +87,9 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
         }, 2000)
     }
 })
-function displayQuantiy() {
+function displayQuantity() {
     document.querySelector(
         '.js-cart-quantity',
-    ).textContent = calculateCartQuantity()
+    ).textContent = cart.calculateCartQuantity()
 }
-displayQuantiy()
+displayQuantity()
