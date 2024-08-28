@@ -20,7 +20,7 @@ export function addToCart(productId, quantity) {
             deliveryOptionId: '1',
         })
     }
-    saveCart()
+    saveToStorage()
 }
 
 export function removeFromCart(productId) {
@@ -29,7 +29,7 @@ export function removeFromCart(productId) {
         if (cartItem.productId !== productId) newCart.push(cartItem)
     })
     cart = newCart
-    saveCart()
+    saveToStorage()
 }
 
 export function calculateCartQuantity() {
@@ -47,9 +47,9 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
         if (productId === cartItem.productId) matchingItem = cartItem
     })
     matchingItem.deliveryOptionId = deliveryOptionId
-    saveCart()
+    saveToStorage()
 }
 
-export function saveCart() {
+export function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart))
 }

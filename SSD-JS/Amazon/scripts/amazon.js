@@ -4,7 +4,7 @@ import { formatCurrency } from './utils/money.js'
 
 let productsHtml = ''
 products.forEach((product) => {
-  productsHtml += `
+    productsHtml += `
   <div class="product-container">
           <div class="product-image-container">
             <img
@@ -23,12 +23,12 @@ products.forEach((product) => {
               src="images/ratings/rating-${product.rating.stars * 10}.png"
             />
             <div class="product-rating-count link-primary">${
-              product.rating.count
+                product.rating.count
             }</div>
           </div>
 
           <div class="product-price">$${formatCurrency(
-            product.priceCents,
+              product.priceCents,
           )}</div>
 
           <div class="product-quantity-container">
@@ -54,7 +54,7 @@ products.forEach((product) => {
           </div>
 
           <button class="add-to-cart-button button-primary js-add-to-cart" data-product-ID='${
-            product.id
+              product.id
           }'>Add to Cart</button>
         </div>
   `
@@ -63,36 +63,36 @@ products.forEach((product) => {
 document.querySelector('.products-grid').innerHTML = productsHtml
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  let addedTimeout
+    let addedTimeout
 
-  button.addEventListener('click', () => {
-    const { productId } = button.dataset
-    const productSelectElement = document.querySelector(
-      `.js-quantity-selector-${productId}`,
-    )
-    const quantity = Number(productSelectElement.value)
+    button.addEventListener('click', () => {
+        const { productId } = button.dataset
+        const productSelectElement = document.querySelector(
+            `.js-quantity-selector-${productId}`,
+        )
+        const quantity = Number(productSelectElement.value)
 
-    addToCart(productId, quantity)
-    displayQuantiy()
+        addToCart(productId, quantity)
+        displayQuantiy()
 
-    const addedMessageEl = document.querySelector(
-      `.js-added-message-${productId}`,
-    )
-    showAddedMessage(addedMessageEl)
-  })
+        const addedMessageEl = document.querySelector(
+            `.js-added-message-${productId}`,
+        )
+        showAddedMessage(addedMessageEl)
+    })
 
-  function showAddedMessage(addedMessageEl) {
-    clearTimeout(addedTimeout)
-    addedMessageEl.classList.add('opacity1')
+    function showAddedMessage(addedMessageEl) {
+        clearTimeout(addedTimeout)
+        addedMessageEl.classList.add('opacity1')
 
-    addedTimeout = setTimeout(() => {
-      addedMessageEl.classList.remove('opacity1')
-    }, 2000)
-  }
+        addedTimeout = setTimeout(() => {
+            addedMessageEl.classList.remove('opacity1')
+        }, 2000)
+    }
 })
 function displayQuantiy() {
-  document.querySelector(
-    '.js-cart-quantity',
-  ).textContent = calculateCartQuantity()
+    document.querySelector(
+        '.js-cart-quantity',
+    ).textContent = calculateCartQuantity()
 }
 displayQuantiy()

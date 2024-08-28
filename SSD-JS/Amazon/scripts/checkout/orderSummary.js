@@ -2,7 +2,7 @@ import {
     cart,
     removeFromCart,
     calculateCartQuantity,
-    saveCart,
+    saveToStorage,
     updateDeliveryOption,
 } from '../../data/cart.js'
 import { getProduct } from '../../data/products.js'
@@ -157,7 +157,7 @@ function handleQuantityUpdate(e) {
             cart.forEach((cartItem) => {
                 if (cartItem.productId === productId) {
                     cartItem.quantity = quantity
-                    saveCart()
+                    saveToStorage()
                     renderOrderSummary()
                     renderPaymentSummary()
                 }
