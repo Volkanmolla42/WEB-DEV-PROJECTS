@@ -18,23 +18,27 @@ class Cart {
         )
     }
     addToCart(productId, quantity) {
-        let matchingItem
-
-        this.cartItems.forEach((cartItem) => {
-            if (productId === cartItem.productId) matchingItem = cartItem
-        })
+        if (!quantity || quantity < 0) quantity = 1
+        // Find the matching item using find
+        let matchingItem = this.cartItems.find(
+            (cartItem) => productId === cartItem.productId,
+        )
 
         if (matchingItem) {
-            matchingItem.quantity = Number(matchingItem.quantity) + quantity
+            // Update the quantity if item exists
+            matchingItem.quantity += quantity // assuming quantity is always a number
         } else {
+            // Add a new item to the cart
             this.cartItems.push({
                 productId,
                 quantity,
-                deliveryOptionId: '1',
+                deliveryOptionId: '1', // default delivery option
             })
         }
+
         this.saveToStorage()
     }
+
     removeFromCart(productId) {
         const newCart = []
         this.cartItems.forEach((cartItem) => {
