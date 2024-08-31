@@ -75,6 +75,7 @@ const raceCar = new RaceCar({
     acceleration: 20,
 })
 
+/*
 car1.go()
 car1.go()
 car1.go()
@@ -111,3 +112,4 @@ raceCar.toggleTrunk()
 raceCar.displayInfo()
 raceCar.brake()
 raceCar.displayInfo()
+*/
