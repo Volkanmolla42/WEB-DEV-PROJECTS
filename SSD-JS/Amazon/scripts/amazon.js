@@ -1,9 +1,12 @@
 import { cart } from '../data/cart-class.js'
-import { products } from '../data/products.js'
+import { products, loadProducts } from '../data/products.js'
 
-let productsHtml = ''
-products.forEach((product) => {
-    productsHtml += `
+loadProducts(renderProductsGrid)
+
+function renderProductsGrid() {
+    let productsHtml = ''
+    products.forEach((product) => {
+        productsHtml += `
   <div class="product-container">
           <div class="product-image-container">
             <img
@@ -56,41 +59,42 @@ products.forEach((product) => {
           }'>Add to Cart</button>
         </div>
   `
-})
-
-document.querySelector('.products-grid').innerHTML = productsHtml
-
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-    let addedTimeout
-
-    button.addEventListener('click', () => {
-        const { productId } = button.dataset
-        const productSelectElement = document.querySelector(
-            `.js-quantity-selector-${productId}`,
-        )
-        const quantity = Number(productSelectElement.value)
-
-        cart.addToCart(productId, quantity)
-        displayQuantity()
-
-        const addedMessageEl = document.querySelector(
-            `.js-added-message-${productId}`,
-        )
-        showAddedMessage(addedMessageEl)
     })
 
-    function showAddedMessage(addedMessageEl) {
-        clearTimeout(addedTimeout)
-        addedMessageEl.classList.add('opacity1')
+    document.querySelector('.products-grid').innerHTML = productsHtml
 
-        addedTimeout = setTimeout(() => {
-            addedMessageEl.classList.remove('opacity1')
-        }, 2000)
+    document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+        let addedTimeout
+
+        button.addEventListener('click', () => {
+            const { productId } = button.dataset
+            const productSelectElement = document.querySelector(
+                `.js-quantity-selector-${productId}`,
+            )
+            const quantity = Number(productSelectElement.value)
+
+            cart.addToCart(productId, quantity)
+            displayQuantity()
+
+            const addedMessageEl = document.querySelector(
+                `.js-added-message-${productId}`,
+            )
+            showAddedMessage(addedMessageEl)
+        })
+
+        function showAddedMessage(addedMessageEl) {
+            clearTimeout(addedTimeout)
+            addedMessageEl.classList.add('opacity1')
+
+            addedTimeout = setTimeout(() => {
+                addedMessageEl.classList.remove('opacity1')
+            }, 2000)
+        }
+    })
+    function displayQuantity() {
+        document.querySelector(
+            '.js-cart-quantity',
+        ).textContent = cart.calculateCartQuantity()
     }
-})
-function displayQuantity() {
-    document.querySelector(
-        '.js-cart-quantity',
-    ).textContent = cart.calculateCartQuantity()
+    displayQuantity()
 }
-displayQuantity()
