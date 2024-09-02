@@ -93,8 +93,8 @@ export function loadProductsFetch() {
           return new Product(productDetails)
         }
       })
+      console.log('load products')
     })
-  console.log('load products')
 
   return promise
 }
@@ -119,10 +119,12 @@ export function loadProducts(fun) {
     fun()
   })
 
+  xhr.addEventListener('error', (error) => {
+    console.log('error, please try again later')
+  })
   xhr.open('GET', 'https://supersimplebackend.dev/products')
   xhr.send()
 }
-
 /*
 export const products = [
     {
