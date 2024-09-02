@@ -13,8 +13,8 @@ async function loadPage() {
     await new Promise((resolve, reject) => {
       //throw 'error2'
       loadCart(() => {
-        reject('error3')
-        //resolve()
+        //reject('error3')
+        resolve()
       })
     })
   } catch (error) {
