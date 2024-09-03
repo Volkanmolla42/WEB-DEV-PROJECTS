@@ -58,32 +58,30 @@ export function renderPaymentSummary() {
         </button>`
   document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML
 
-  document
-    .querySelector('.js-place-order')
-    .addEventListener('click', async () => {
-      if (cart.cartItems.length !== 0) {
-        try {
-          const response = await fetch(
-            'https://supersimplebackend.dev/orders',
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                cart: cart,
-              }),
-            },
-          )
-          const order = await response.json()
-          addOrder(order)
-        } catch (error) {
-          console.error('Unexpected error. Try again later.')
-        }
-        cart.clearCart()
-        window.location.href = 'orders.html'
-      } else {
-        console.log('kart boş')
+  const placeOrderEl = document.querySelector('.js-place-order')
+
+  if (cart.cartItems.length !== 0) {
+    placeOrderEl.addEventListener('click', async () => {
+      try {
+        const response = await fetch('https://supersimplebackend.dev/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cart: cart,
+          }),
+        })
+        const order = await response.json()
+        addOrder(order)
+      } catch (error) {
+        console.error('Unexpected error. Try again later.')
       }
+      cart.clearCart()
+      window.location.href = 'orders.html'
     })
+  } else {
+    placeOrderEl.style.opacity = '0.5'
+    placeOrderEl.style.pointerEvents = 'none'
+  }
 }

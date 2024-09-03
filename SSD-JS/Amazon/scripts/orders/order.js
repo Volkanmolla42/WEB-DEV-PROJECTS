@@ -1,6 +1,7 @@
 import { cart } from '../../data/cart-class.js'
 import { getProduct, loadProductsFetch } from '../../data/products.js'
 import formatCurrency from '../utils/money.js'
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
 
 export const orders = JSON.parse(localStorage.getItem('orders')) || []
 
@@ -49,12 +50,21 @@ function renderOrderPage() {
 
   const orderGridElement = document.querySelector('.js-order-grid')
   if (orderGridElement) {
-    orderGridElement.innerHTML = orderGridHtml
+    orderGridElement.innerHTML =
+      orderGridHtml ||
+      `<p>Your orders is empty.</p>
+      <a href="amazon.html">
+        <button class="view-products-link">View Products</button>
+      </a>
+      `
 
     orders.forEach((order, index) => {
       let orderDetailsHtml = ''
 
       order.products.forEach((product) => {
+        const deliveryDate = dayjs(product.estimatedDeliveryTime).format(
+          'MMMM D',
+        )
         const matchingProduct = getProduct(product.productId)
 
         if (matchingProduct) {
@@ -68,9 +78,7 @@ function renderOrderPage() {
               <div class="product-name">
                 ${matchingProduct.name}
               </div>
-              <div class="product-delivery-date">Arriving on: ${formatDate(
-                product.estimatedDeliveryTime,
-              )} </div>
+              <div class="product-delivery-date">Arriving on: ${deliveryDate} </div>
               <div class="product-quantity">Quantity: ${
                 product.quantity || 1
               }</div>
@@ -80,7 +88,9 @@ function renderOrderPage() {
               </button>
             </div>
             <div class="product-actions">
-              <a href="tracking.html">
+              <a href="tracking.html?orderId=${order.id}&productId=${
+            product.productId
+          }">
                 <button class="track-package-button button-secondary">
                   Track package
                 </button>
@@ -102,8 +112,6 @@ function renderOrderPage() {
         )
       }
     })
-  } else {
-    console.error('Element with class .js-order-grid not found in the DOM')
   }
 }
 
@@ -116,11 +124,7 @@ async function loadOrder() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadOrder()
-})
-
-function formatDate(dateString) {
+export function formatDate(dateString) {
   const date = new Date(dateString)
   const monthNames = [
     'January',
@@ -142,3 +146,5 @@ function formatDate(dateString) {
 
   return `${monthName} ${day}`
 }
+
+loadOrder()
