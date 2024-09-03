@@ -20,7 +20,7 @@ async function renderTracking() {
           View all orders
         </a>
 
-        <div class="delivery-date">${deliveryDate}</div>
+        <div class="delivery-date">Arriving on ${deliveryDate}</div>
 
         <div class="product-info">
           ${matchingProduct.name}
