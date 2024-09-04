@@ -1,150 +1,107 @@
-import { cart } from '../../data/cart-class.js'
 import { getProduct, loadProductsFetch } from '../../data/products.js'
-import formatCurrency from '../utils/money.js'
+import { orders } from '../../data/orders.js'
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
+import formatCurrency from '../utils/money.js'
+import { cart } from '../../data/cart-class.js'
 
-export const orders = JSON.parse(localStorage.getItem('orders')) || []
+async function loadPage() {
+  await loadProductsFetch()
+  let ordersHTML = ''
 
-export function addOrder(order) {
-  orders.unshift(order)
-  saveToStorage()
-}
+  orders.forEach((order) => {
+    const orderTimeString = dayjs(order.orderTime).format('MMMM D')
 
-function saveToStorage() {
-  localStorage.setItem('orders', JSON.stringify(orders))
-}
-
-const CartQuantity = document.querySelector('.js-cart-quantity')
-if (CartQuantity) CartQuantity.innerText = cart.calculateCartQuantity()
-function renderOrderPage() {
-  let orderGridHtml = ''
-
-  orders.forEach((order, index) => {
-    const orderTime = formatDate(order.orderTime)
-    const orderTotal = `$${formatCurrency(order.totalCostCents)}`
-
-    orderGridHtml += `
-    <div class="order-container">
-      <div class="order-header">
-        <div class="order-header-left-section">
-          <div class="order-date">
-            <div class="order-header-label">Order Placed:</div>
-            <div>${orderTime}</div>
+    ordersHTML += `
+      <div class="order-container">
+        <div class="order-header">
+          <div class="order-header-left-section">
+            <div class="order-date">
+              <div class="order-header-label">Order Placed:</div>
+              <div>${orderTimeString}</div>
+            </div>
+            <div class="order-total">
+              <div class="order-header-label">Total:</div>
+              <div>$${formatCurrency(order.totalCostCents)}</div>
+            </div>
           </div>
-          <div class="order-total">
-            <div class="order-header-label">Total:</div>
-            <div>${orderTotal}</div>
+          <div class="order-header-right-section">
+            <div class="order-header-label">Order ID:</div>
+            <div>${order.id}</div>
           </div>
         </div>
-
-        <div class="order-header-right-section">
-          <div class="order-header-label">Order ID:</div>
-          <div>${order.id}</div>
+        <div class="order-details-grid">
+          ${productsListHTML(order)}
         </div>
       </div>
-
-      <div class="order-details-grid js-order-details-grid-${index}"></div>
-    </div>
     `
   })
 
-  const orderGridElement = document.querySelector('.js-order-grid')
-  if (orderGridElement) {
-    orderGridElement.innerHTML =
-      orderGridHtml ||
-      `<p>Your orders is empty.</p>
-      <a href="amazon.html">
-        <button class="view-products-link">View Products</button>
-      </a>
-      `
+  function productsListHTML(order) {
+    let productsListHTML = ''
 
-    orders.forEach((order, index) => {
-      let orderDetailsHtml = ''
+    order.products.forEach((productDetails) => {
+      const product = getProduct(productDetails.productId)
 
-      order.products.forEach((product) => {
-        const deliveryDate = dayjs(product.estimatedDeliveryTime).format(
-          'MMMM D',
-        )
-        const matchingProduct = getProduct(product.productId)
-
-        if (matchingProduct) {
-          orderDetailsHtml += `
-            <div class="product-image-container">
-              <img src="${matchingProduct.image}" alt="${
-            matchingProduct.name
-          } image"/>
-            </div>
-            <div class="product-details">
-              <div class="product-name">
-                ${matchingProduct.name}
-              </div>
-              <div class="product-delivery-date">Arriving on: ${deliveryDate} </div>
-              <div class="product-quantity">Quantity: ${
-                product.quantity || 1
-              }</div>
-              <button class="buy-again-button button-primary">
-                <img class="buy-again-icon" src="images/icons/buy-again.png" />
-                <span class="buy-again-message">Buy it again</span>
-              </button>
-            </div>
-            <div class="product-actions">
-              <a href="tracking.html?orderId=${order.id}&productId=${
-            product.productId
+      productsListHTML += `
+        <div class="product-image-container">
+          <img src="${product.image}">
+        </div>
+        <div class="product-details">
+          <div class="product-name">
+            ${product.name}
+          </div>
+          <div class="product-delivery-date">
+            Arriving on: ${dayjs(productDetails.estimatedDeliveryTime).format(
+              'MMMM D',
+            )}
+          </div>
+          <div class="product-quantity">
+            Quantity: ${productDetails.quantity}
+          </div>
+          <button class="buy-again-button button-primary js-buy-again" data-product-id="${
+            product.id
           }">
-                <button class="track-package-button button-secondary">
-                  Track package
-                </button>
-              </a>
-            </div>`
-        } else {
-          console.warn(`Product with ID ${product.productId} not found.`)
-        }
-      })
-
-      const orderDetailsGrid = document.querySelector(
-        `.js-order-details-grid-${index}`,
-      )
-      if (orderDetailsGrid) {
-        orderDetailsGrid.innerHTML = orderDetailsHtml
-      } else {
-        console.error(
-          `Element with class .js-order-details-grid-${index} not found in the DOM`,
-        )
-      }
+            <img class="buy-again-icon" src="images/icons/buy-again.png">
+            <span class="buy-again-message">Buy it again</span>
+          </button>
+        </div>
+        <div class="product-actions">
+          <a href="tracking.html?orderId=${order.id}&productId=${product.id}">
+            <button class="track-package-button button-secondary">
+              Track package
+            </button>
+          </a>
+        </div>
+      `
     })
+
+    return productsListHTML
   }
+
+  document.querySelector('.js-orders-grid').innerHTML =
+    ordersHTML ||
+    `<p>Looks like you haven't placed an order</p>
+    <a href="amazon.html">
+    <button class="view-products-link">View Products</button>
+    </a>
+    `
+  addEventListeners()
 }
 
-async function loadOrder() {
-  try {
-    await loadProductsFetch()
-    renderOrderPage()
-  } catch (error) {
-    console.error('Unexpected error, please try again later', error)
-  }
+loadPage()
+function addEventListeners() {
+  document.querySelectorAll('.js-buy-again').forEach((buyAgainBtn) => {
+    buyAgainBtn.addEventListener('click', () => {
+      const { productId } = buyAgainBtn.dataset
+      console.log(productId)
+      cart.addToCart(productId, 1)
+      renderQuantity()
+    })
+  })
 }
-
-export function formatDate(dateString) {
-  const date = new Date(dateString)
-  const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ]
-
-  const monthName = monthNames[date.getMonth()]
-  const day = date.getDate()
-
-  return `${monthName} ${day}`
+function renderQuantity() {
+  document.querySelector(
+    '.js-cart-quantity',
+  ).innerText = cart.calculateCartQuantity()
 }
-
-loadOrder()
+renderQuantity()

@@ -1,7 +1,8 @@
 import { cart } from '../../data/cart-class.js'
 import { getProduct } from '../../data/products.js'
 import formatCurrency from '../utils/money.js'
-import deliveryOptions, {
+import {
+  deliveryOptions,
   getDeliveryOption,
 } from '../../data/deliveryOptions.js'
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
@@ -62,7 +63,8 @@ export function renderOrderSummary() {
 
   document.querySelector('.js-order-summary').innerHTML =
     checkoutHTML ||
-    `<p>Your cart is empty.</p>
+    `<p><h3>Your Amazon Cart is empty.</h3></p>
+    <p>Your Shopping Cart lives to serve. Give it purpose — fill it with groceries, clothing, household supplies, electronics, and more.</p>
     <a href="amazon.html">
     <button class="view-products-link">View Products</button>
     </a>
