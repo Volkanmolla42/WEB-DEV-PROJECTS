@@ -2,7 +2,7 @@ import { cart } from '../../data/cart-class.js'
 import { getDeliveryOption } from '../../data/deliveryOptions.js'
 import { getProduct } from '../../data/products.js'
 import formatCurrency from '../utils/money.js'
-import { addOrder } from '../orders/order.js'
+import { addOrder } from '../../data/orders.js'
 export function renderPaymentSummary() {
   let productsTotalCents = 0
   let shippingTotalCents = 0
